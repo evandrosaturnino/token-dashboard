@@ -22,7 +22,8 @@ const SubmitTxButton: FC<SubmitTxButtonProps> = ({
   const { isBlocked, isFetching } = useSelector(
     (state: RootState) => state.account.trm
   )
-  const { isSdkInitializedWithSigner } = useIsTbtcSdkInitializing()
+  const { isSdkInitializedWithSigner, isSdkInitializing } =
+    useIsTbtcSdkInitializing()
   const { account } = useIsActive()
   const connectWallet = useConnectWallet()
 
@@ -32,7 +33,7 @@ const SubmitTxButton: FC<SubmitTxButtonProps> = ({
 
   // Check for tbtc transactions. This check ensures that the button is
   // enabled only if the sdk is initialized with a signer for tbtc related actions.
-  if (account && (isTbtcTransaction ? isSdkInitializedWithSigner : true)) {
+  if (account && isSdkInitializedWithSigner) {
     return (
       <Button
         isLoading={isFetching || isLoading}
@@ -47,6 +48,7 @@ const SubmitTxButton: FC<SubmitTxButtonProps> = ({
 
   return (
     <Button
+      isLoading={isSdkInitializing}
       onClick={onConnectWalletClick}
       {...buttonProps}
       type="button"
