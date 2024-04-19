@@ -24,7 +24,7 @@ const envVariables = [
   "TRM_API_KEY",
 ] as const
 
-export type EnvVariableKey = typeof envVariables[number]
+export type EnvVariableKey = (typeof envVariables)[number]
 
 // In order not to break the previous enum API, so using eg.
 // `EnvVariable.ETH_HOSTNAME_HTTP` is still valid.
