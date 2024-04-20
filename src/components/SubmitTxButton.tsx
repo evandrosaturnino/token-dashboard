@@ -48,7 +48,6 @@ const SubmitTxButton: FC<SubmitTxButtonProps> = ({
 
   return (
     <Button
-      isLoading={isSdkInitializing}
       onClick={onConnectWalletClick}
       {...buttonProps}
       type="button"
