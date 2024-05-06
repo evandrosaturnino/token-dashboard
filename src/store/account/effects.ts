@@ -83,10 +83,10 @@ export const getTrmInfo = async (
     const entities: TrmEntity[] = data[0]?.entities || []
 
     const hasSevereRisk = riskIndicators.some(
-      (indicator) => indicator.categoryRiskScoreLevelLabel === "Low"
+      (indicator) => indicator.categoryRiskScoreLevelLabel === "Severe"
     )
     const hasSevereEntity = entities.some(
-      (entity) => entity.riskScoreLevelLabel === "Low"
+      (entity) => entity.riskScoreLevelLabel === "Severe"
     )
 
     const isBlocked = hasSevereEntity || hasSevereRisk
