@@ -45,6 +45,9 @@ const testnetPrivateKey = "cRJvyxtoggjAm9A94cB86hZ7Y62z2ei5VNJHLksFi2xdnz1GJ6xt"
 const bitcoinNetworkTransactionFee = BigNumber.from(1520)
 
 export class MockBitcoinClient implements BitcoinClient {
+  getCoinbaseTxHash(blockHeight: number): Promise<BitcoinTxHash> {
+    throw new Error("Method not implemented.")
+  }
   private _unspentTransactionOutputs = new Map<string, BitcoinUtxo[]>()
   private _rawTransactions = new Map<string, BitcoinRawTx>()
   private _transactions = new Map<string, BitcoinTx>()

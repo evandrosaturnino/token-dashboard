@@ -15,6 +15,7 @@ import { useRevealDepositTransaction } from "../../../../hooks/tbtc"
 import { Toast } from "../../../../components/Toast"
 import { useModal } from "../../../../hooks/useModal"
 import { PosthogButtonId } from "../../../../types/posthog"
+import SubmitTxButton from "../../../../components/SubmitTxButton"
 
 const InitiateMintingComponent: FC<{
   utxo: BitcoinUtxo
@@ -95,8 +96,9 @@ const InitiateMintingComponent: FC<{
         </BodyLg>
       </InfoBox>
       <MintingTransactionDetails />
-      <Button
-        onClick={initiateMintTransaction}
+      <SubmitTxButton
+        onSubmit={initiateMintTransaction}
+        isTbtcTransaction
         isFullWidth
         data-ph-capture-attribute-button-name={
           "Confirm deposit & mint (Step 2)"
@@ -106,7 +108,7 @@ const InitiateMintingComponent: FC<{
         data-ph-capture-attribute-deposited-btc-amount={utxo.value}
       >
         Bridge
-      </Button>
+      </SubmitTxButton>
     </>
   )
 }

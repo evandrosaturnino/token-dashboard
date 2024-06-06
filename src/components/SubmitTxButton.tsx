@@ -1,39 +1,53 @@
 import { FC } from "react"
 import { Button, ButtonProps } from "@chakra-ui/react"
 import { useIsActive } from "../hooks/useIsActive"
-import { useIsTbtcSdkInitializing } from "../contexts/ThresholdContext"
 import { useConnectWallet } from "../hooks/useConnectWallet"
+import { RootState } from "../store"
+import { useSelector } from "react-redux"
+import { useIsTbtcSdkInitializing } from "../contexts/ThresholdContext"
 
-interface Props extends ButtonProps {
+interface SubmitTxButtonProps extends ButtonProps {
   onSubmit?: () => void
-  submitText?: string
+  isTbtcTransaction?: boolean
 }
 
-const SubmitTxButton: FC<Props> = ({
+const SubmitTxButton: FC<SubmitTxButtonProps> = ({
   onSubmit,
-  submitText = "Upgrade",
+  isLoading,
+  isDisabled,
+  isTbtcTransaction = false,
+  children,
   ...buttonProps
 }) => {
-  const { isActive } = useIsActive()
-  const { isSdkInitializedWithSigner } = useIsTbtcSdkInitializing()
+  const { isBlocked, isFetching } = useSelector(
+    (state: RootState) => state.account.trm
+  )
+  const { isSdkInitializedWithSigner, isSdkInitializing } =
+    useIsTbtcSdkInitializing()
+  const { account } = useIsActive()
   const connectWallet = useConnectWallet()
 
   const onConnectWalletClick = () => {
     connectWallet()
   }
 
-  if (isActive && isSdkInitializedWithSigner) {
+  // Check for tbtc transactions. This check ensures that the button is
+  // enabled only if the sdk is initialized with a signer for tbtc related actions.
+  if (account && isSdkInitializedWithSigner) {
     return (
-      <Button mt={6} isFullWidth onClick={onSubmit} {...buttonProps}>
-        {submitText}
+      <Button
+        isLoading={isFetching || isLoading}
+        isDisabled={isBlocked || isDisabled}
+        onClick={onSubmit}
+        {...buttonProps}
+      >
+        {children}
       </Button>
     )
   }
 
   return (
     <Button
-      mt={6}
-      isFullWidth
       onClick={onConnectWalletClick}
       {...buttonProps}
       type="button"

@@ -63,6 +63,7 @@ import { UnmintingCard } from "./UnmintingCard"
 import { featureFlags } from "../../../constants"
 import { BridgeProcessEmptyState } from "./components/BridgeProcessEmptyState"
 import { useIsActive } from "../../../hooks/useIsActive"
+import SubmitTxButton from "../../../components/SubmitTxButton"
 
 const UnmintFormPage: PageComponent = ({}) => {
   const { balance } = useToken(Token.TBTCV2)
@@ -193,15 +194,16 @@ const UnmintFormBase: FC<UnmintFormBaseProps> = ({
           {error}
         </BodyMd>
       )}
-      <Button
+      <SubmitTxButton
         size="lg"
-        w="100%"
+        isFullWidth
         mt={error ? "0" : "10"}
         type="submit"
+        isTbtcTransaction
         isLoading={isSubmitting}
       >
         Unmint
-      </Button>
+      </SubmitTxButton>
     </Form>
   )
 }

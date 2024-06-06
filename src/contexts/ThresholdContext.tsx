@@ -51,15 +51,19 @@ const useInitializeTbtcSdk = () => {
     async (providerOrSigner: providers.Provider | Signer, account?: string) => {
       if (!isInitializing) {
         setIsInitializing(true)
-        const sdk = await threshold.tbtc.initializeSdk(
-          providerOrSigner,
-          account
-        )
-        setSdk(sdk)
-        setIsInitialized(true)
-        const isInitializedWithSigner = account ? true : false
-        setIsInitializedWithSigner(isInitializedWithSigner)
-        setIsInitializing(false)
+        threshold.tbtc
+          .initializeSdk(providerOrSigner, account)
+          .then((sdk) => {
+            if (!account) return
+            setSdk(sdk)
+            setIsInitialized(true)
+            setIsInitializedWithSigner(!!account)
+            setIsInitializing(false)
+          })
+          .catch((err: any) => {
+            console.error(err)
+            setIsInitializing(false)
+          })
       }
     },
     [
