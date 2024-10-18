@@ -62,6 +62,7 @@ import {
   useSubscribeToOptimisticMintingRequestedEventBase,
   useSubscribeToOptimisticMintingFinalizedEventBase,
 } from "../../../hooks/tbtc"
+import { useIsActive } from "../../../hooks/useIsActive"
 import { tbtcSlice } from "../../../store/tbtc"
 import { ExplorerDataType } from "../../../utils/createEtherscanLink"
 import { PageComponent } from "../../../types"
@@ -82,6 +83,7 @@ export const DepositDetails: PageComponent = () => {
     "curve",
     CurveFactoryPoolId.TBTC_WBTC_SBTC
   )
+  const { chainId } = useIsActive()
 
   const [mintingProgressStep, setMintingProgressStep] =
     useState<DepositDetailsTimelineStep>("bitcoin-confirmations")
@@ -271,6 +273,7 @@ export const DepositDetails: PageComponent = () => {
                             id={item.txHash!}
                             type={ExplorerDataType.TRANSACTION}
                             chain={item.chain}
+                            ethereumNetworkChainId={chainId}
                             text="transaction"
                           />
                           .

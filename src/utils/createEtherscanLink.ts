@@ -1,7 +1,4 @@
-const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
-  1: "",
-  11155111: "sepolia.",
-}
+import { SupportedChainIDs } from "../enums"
 
 export enum ExplorerDataType {
   TRANSACTION = "transaction",
@@ -32,13 +29,24 @@ export const createBlockExplorerLink = (
   }
 }
 
+const createEtherscanPrefix = (chainId: number): string => {
+  const prefixMap: { [key: number]: string } = {
+    [SupportedChainIDs.Sepolia]: "https://sepolia.etherscan.io",
+    [SupportedChainIDs.Arbitrum]: "https://arbiscan.io",
+    [SupportedChainIDs.ArbitrumSepolia]: "https://sepolia.arbiscan.io",
+    [SupportedChainIDs.Base]: "https://basescan.org",
+    [SupportedChainIDs.BaseSepolia]: "https://sepolia.basescan.org",
+  }
+
+  return prefixMap[chainId] || "https://etherscan.io"
+}
+
 const createEtherscanLink = (
   chainId: number,
   address: string,
   type: ExplorerDataType
 ): string => {
-  const prefix = `https://${ETHERSCAN_PREFIXES[chainId] ?? ""}etherscan.io`
-
+  const prefix = createEtherscanPrefix(chainId)
   return createBlockExplorerLink(prefix, address, type)
 }
 

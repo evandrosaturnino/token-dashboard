@@ -1,7 +1,6 @@
 import { useWeb3React } from "@web3-react/core"
 import { useCallback, useMemo } from "react"
 import { useLedgerLiveApp } from "../contexts/LedgerLiveAppContext"
-import { supportedChainId } from "../utils/getEnvVariable"
 import { useIsEmbed } from "./useIsEmbed"
 
 type UseIsActiveResult = {
@@ -23,8 +22,9 @@ export const useIsActive = (): UseIsActiveResult => {
     chainId: _chainId,
     deactivate: _deactivate,
   } = useWeb3React()
-  const { ethAccount, setEthAccount } = useLedgerLiveApp()
+  const { ethAccount, ethAccountChainId, setEthAccount } = useLedgerLiveApp()
   const ledgerLiveAppEthAddress = ethAccount?.address || undefined
+  const ledgerLiveAppEthChaindId = ethAccountChainId || undefined
   const { isEmbed } = useIsEmbed()
 
   const isActive = useMemo(() => {
@@ -40,7 +40,7 @@ export const useIsActive = (): UseIsActiveResult => {
 
   return {
     account: (isEmbed ? ledgerLiveAppEthAddress : _account) || undefined,
-    chainId: isEmbed ? Number(supportedChainId) : _chainId,
+    chainId: isEmbed ? ledgerLiveAppEthChaindId : _chainId,
     isActive,
     deactivate: isEmbed ? deactivateLedgerLiveApp : _deactivate,
   }

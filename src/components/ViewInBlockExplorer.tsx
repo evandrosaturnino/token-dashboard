@@ -5,33 +5,41 @@ import createEtherscanLink, {
   createBlockExplorerLink,
   ExplorerDataType,
 } from "../utils/createEtherscanLink"
-import { supportedChainId } from "../utils/getEnvVariable"
+import { isConnectedNetworkTestnet } from "../utils/connectedNetwork"
 
 export type Chain = "bitcoin" | "ethereum"
 
 export const createLinkToBlockExplorerForChain: Record<
   Chain,
-  (id: string, type: ExplorerDataType) => string
+  (
+    id: string,
+    type: ExplorerDataType,
+    ethereumNetworkChainId?: string | number
+  ) => string
 > = {
-  bitcoin: (id, type) => {
+  bitcoin: (id, type, ethereumNetworkChainId = 1) => {
     const prefix = `https://blockstream.info${
-      Number(supportedChainId) !== 1 ? "/testnet" : ""
+      isConnectedNetworkTestnet(Number(ethereumNetworkChainId))
+        ? "/testnet"
+        : ""
     }`
 
     return createBlockExplorerLink(prefix, id, type)
   },
-  ethereum: (id, type) =>
-    createEtherscanLink(Number(supportedChainId), id, type),
+  ethereum: (id, type, ethereumNetworkChainId = 1) =>
+    createEtherscanLink(Number(ethereumNetworkChainId), id, type),
 }
 
 type ConditionalProps =
   | {
       chain?: Extract<Chain, "bitcoin">
       type: Exclude<ExplorerDataType, ExplorerDataType.TOKEN>
+      ethereumNetworkChainId?: string | number | never
     }
   | {
       chain?: Extract<Chain, "ethereum"> | never
       type: ExplorerDataType
+      ethereumNetworkChainId?: string | number | never
     }
 
 type CommonProps = {
@@ -48,9 +56,14 @@ const ViewInBlockExplorer: FC<ViewInBlockExplorerProps> = ({
   type,
   text = "View in Block Explorer",
   chain = "ethereum",
+  ethereumNetworkChainId,
   ...restProps
 }) => {
-  const link = createLinkToBlockExplorerForChain[chain](id, type)
+  const link = createLinkToBlockExplorerForChain[chain](
+    id,
+    type,
+    ethereumNetworkChainId
+  )
 
   return (
     <Link isExternal href={link} {...restProps}>

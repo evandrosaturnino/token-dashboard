@@ -1,5 +1,4 @@
 const envVariables = [
-  "SUPPORTED_CHAIN_ID",
   "ETH_HOSTNAME_HTTP",
   "ETH_HOSTNAME_WS",
   "FEATURE_FLAG_TBTC_V2",

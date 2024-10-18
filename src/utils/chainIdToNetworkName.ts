@@ -1,17 +1,31 @@
-import { ChainID } from "../enums"
+import { SupportedChainIDs } from "../enums"
 
-type NetworkMap = {
-  [chainId: number]: string
+type NetworkName =
+  | "Ethereum"
+  | "Sepolia Test"
+  | "Localhost"
+  | "Arbitrum"
+  | "Arbitrum Sepolia Test"
+  | "Base"
+  | "Base Sepolia Test"
+  | "Unsupported"
+
+export const testNetworksMap: Record<number, NetworkName> = {
+  [SupportedChainIDs.Sepolia]: "Sepolia Test",
+  [SupportedChainIDs.Localhost]: "Localhost",
+  [SupportedChainIDs.ArbitrumSepolia]: "Arbitrum Sepolia Test",
+  [SupportedChainIDs.BaseSepolia]: "Base Sepolia Test",
 }
 
-const networkMap: NetworkMap = {
-  [ChainID.Ethereum]: "Ethereum",
-  [ChainID.Sepolia]: "Sepolia Test",
-  [ChainID.Localhost]: "Localhost",
+export const supportedNetworksMap: Record<number, NetworkName> = {
+  ...testNetworksMap,
+  [SupportedChainIDs.Ethereum]: "Ethereum",
+  [SupportedChainIDs.Arbitrum]: "Arbitrum",
+  [SupportedChainIDs.Base]: "Base",
 }
 
-const chainIdToNetworkName = (chainId: string | number = 1): string => {
-  const network = networkMap[Number(chainId)]
+const chainIdToNetworkName = (chainId: string | number = 1) => {
+  const network = supportedNetworksMap[Number(chainId)]
   return network || "Unsupported"
 }
 

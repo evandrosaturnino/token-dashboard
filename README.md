@@ -11,7 +11,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Update the `.env` file:
 
 ```
-REACT_APP_SUPPORTED_CHAIN_ID=11155111
 REACT_APP_ETH_HOSTNAME_HTTP=<your http ETH hostname- eg. Infura>
 REACT_APP_ETH_HOSTNAME_WS=<your ws ETH hostname- eg. Infura>
 // We can skip this env variable- the dapp uses the correct address
@@ -109,7 +108,6 @@ The following procedure allows to deploy T token dashboard to production:
 Update `.env` to contain:
 
 ```
-REACT_APP_SUPPORTED_CHAIN_ID=11155111
 REACT_APP_ETH_HOSTNAME_HTTP=https://sepolia.infura.io/v3/<your API key here>
 REACT_APP_ETH_HOSTNAME_WS=wss://sepolia.infura.io/v3/<your API key here>
 REACT_APP_MULTICALL_ADDRESS=$MULTICALL_ADDRESS

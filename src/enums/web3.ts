@@ -1,7 +1,11 @@
-export enum ChainID {
+export enum SupportedChainIDs {
   Ethereum = 1,
   Sepolia = 11155111,
   Localhost = 1337,
+  Arbitrum = 42161,
+  ArbitrumSepolia = 421614,
+  Base = 8453,
+  BaseSepolia = 84532,
 }
 
 export enum ConnectionError {

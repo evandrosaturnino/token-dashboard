@@ -6,6 +6,8 @@ type TrmNetworksMap = {
 
 const trmNetworksMap: TrmNetworksMap = {
   [TrmNetworksChainId.ethereum]: "ethereum",
+  [TrmNetworksChainId.arbitrum]: "arbitrum",
+  [TrmNetworksChainId.base]: "base",
 }
 
 const chainIdToTrmNetworkName = (

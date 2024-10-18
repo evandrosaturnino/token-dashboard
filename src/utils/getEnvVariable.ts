@@ -13,7 +13,5 @@ export const getEnvVariable = (envVar: EnvVariableKey) => {
   return envMap[envVar]
 }
 
-export const supportedChainId = getEnvVariable(EnvVariable.SUPPORTED_CHAIN_ID)
-
 export const shouldUseTestnetDevelopmentContracts =
   getEnvVariable(EnvVariable.DAPP_DEVELOPMENT_TESTNET_CONTRACTS) === "true"

@@ -10,6 +10,10 @@ import { Contract, ContractInterface, Event, providers, Signer } from "ethers"
 import { AddressZero, getAddress, isAddressZero } from "./address"
 import { LedgerLiveEthereumSigner } from "@keep-network/tbtc-v2.ts"
 
+import L2BitcoinDepositorArbitrum from "@keep-network/tbtc-v2.ts/src/lib/arbitrum/artifacts/arbitrumOne/ArbitrumL2BitcoinDepositor.json"
+
+import L2BitcoinDepositorBase from "@keep-network/tbtc-v2.ts/src/lib/base/artifacts/baseSepolia/BaseL2BitcoinDepositor.json"
+
 import BridgeArtifactMainnet from "@keep-network/tbtc-v2.ts/src/lib/ethereum/artifacts/mainnet/Bridge.json"
 import NuCypherStakingEscrowMainnet from "../staking/mainnet-artifacts/NuCypherStakingEscrow.json"
 import NuCypherTokenMainnet from "../tokens/mainnet-artifacts/NuCypherToken.json"
@@ -39,6 +43,7 @@ import WalletRegistryArtifactDappDevelopmentSepolia from "../tbtc/dapp-developme
 
 type ArtifactNameType =
   | "Bridge"
+  | "L2BitcoinDepositor"
   | "NuCypherStakingEscrow"
   | "NuCypherToken"
   | "TBTCVault"
@@ -52,6 +57,14 @@ type ArtifactType = {
   [key: string]: any
 }
 
+const arbitrumArtifacts = new Map<ArtifactNameType, ArtifactType>([
+  ["L2BitcoinDepositor", L2BitcoinDepositorArbitrum],
+])
+
+const baseArtifacts = new Map<ArtifactNameType, ArtifactType>([
+  ["L2BitcoinDepositor", L2BitcoinDepositorArbitrum],
+])
+
 const mainnetArtifacts = new Map<ArtifactNameType, ArtifactType>([
   ["Bridge", BridgeArtifactMainnet],
   ["NuCypherStakingEscrow", NuCypherStakingEscrowMainnet],
@@ -63,6 +76,7 @@ const mainnetArtifacts = new Map<ArtifactNameType, ArtifactType>([
   ["VendingMachineNuCypher", VendingMachineNuCypherMainnet],
 ])
 const testnetArtifacts = new Map<ArtifactNameType, ArtifactType>([
+  ["L2BitcoinDepositor", L2BitcoinDepositorArbitrum],
   ["Bridge", BridgeArtifactSepolia],
   ["NuCypherStakingEscrow", NuCypherStakingEscrowSepolia],
   ["NuCypherToken", NuCypherTokenSepolia],

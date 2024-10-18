@@ -8,6 +8,7 @@ interface LedgerLiveAppContextState {
   btcAccount: Account | undefined
   setEthAccount: (ethAccount: Account | undefined) => void
   setBtcAccount: (btcAccount: Account | undefined) => void
+  ethAccountChainId: number | undefined
   ledgerLiveAppEthereumSigner: LedgerLiveEthereumSigner | undefined
 }
 
@@ -20,15 +21,21 @@ const LedgerLiveAppContext = createContext<LedgerLiveAppContextState>({
   btcAccount: undefined,
   setEthAccount: () => {},
   setBtcAccount: () => {},
+  ethAccountChainId: undefined,
   ledgerLiveAppEthereumSigner: undefined,
 })
 
 export const LedgerLiveAppProvider: React.FC = ({ children }) => {
   const [ethAccount, _setEthAccount] = useState<Account | undefined>(undefined)
+  const [ethAccountChainId, setEthAccountChainId] = useState<
+    number | undefined
+  >(undefined)
   const [btcAccount, setBtcAccount] = useState<Account | undefined>(undefined)
 
-  const setEthAccount = useCallback((ethAccount: Account | undefined) => {
+  const setEthAccount = useCallback(async (ethAccount: Account | undefined) => {
     ledgerLiveAppEthereumSigner.setAccount(ethAccount)
+    const chainId = await ledgerLiveAppEthereumSigner.getChainId()
+    setEthAccountChainId(chainId)
     _setEthAccount(ethAccount)
   }, [])
 
@@ -39,6 +46,7 @@ export const LedgerLiveAppProvider: React.FC = ({ children }) => {
         setEthAccount,
         btcAccount,
         setBtcAccount,
+        ethAccountChainId,
         ledgerLiveAppEthereumSigner,
       }}
     >

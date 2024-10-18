@@ -17,6 +17,7 @@ import { ExplorerDataType } from "../../../utils/createEtherscanLink"
 import { useModal } from "../../../hooks/useModal"
 import InfoBox from "../../InfoBox"
 import ModalCloseButton from "../ModalCloseButton"
+import { useIsActive } from "../../../hooks/useIsActive"
 
 interface SuccessModalProps {
   title?: string
@@ -32,6 +33,7 @@ const StakingSuccessModal: FC<SuccessModalProps> = ({
   transactionHash,
 }) => {
   const { closeModal } = useModal()
+  const { chainId } = useIsActive()
 
   return (
     <>
@@ -69,6 +71,7 @@ const StakingSuccessModal: FC<SuccessModalProps> = ({
               text="View"
               id={transactionHash}
               type={ExplorerDataType.TRANSACTION}
+              ethereumNetworkChainId={chainId}
             />{" "}
             transaction on Etherscan
           </BodySm>

@@ -6,9 +6,7 @@ import {
   CloseButton,
 } from "@chakra-ui/react"
 import { FC, useEffect, useState } from "react"
-import isSupportedNetwork from "../../utils/isSupportedNetwork"
-import chainIdToNetworkName from "../../utils/chainIdToNetworkName"
-import { supportedChainId } from "../../utils/getEnvVariable"
+import { isConnectedNetworkSupported } from "../../utils/connectedNetwork"
 import { useWeb3React } from "@web3-react/core"
 
 const WalletConnectionAlert: FC<{
@@ -29,16 +27,17 @@ const WalletConnectionAlert: FC<{
       return
     }
 
-    if (!account || (account && isSupportedNetwork(chainId))) {
+    if (
+      !account ||
+      (account && isConnectedNetworkSupported(chainId?.toString()))
+    ) {
       setHideAlert(true)
       return
     }
 
-    if (!isSupportedNetwork(chainId)) {
+    if (!isConnectedNetworkSupported(chainId?.toString())) {
       setAlertDescription(
-        `Your wallet is on an unsupported network. Switch to the ${chainIdToNetworkName(
-          supportedChainId
-        )} network`
+        `Your wallet is on an unsupported network. Switch to a supported network`
       )
       setAlertStatus("warning")
       setHideAlert(false)

@@ -186,6 +186,8 @@ export interface ITBTC {
 
   readonly bridgeContract: Contract
 
+  readonly l2BitcoinDepositorContract: Contract
+
   readonly vaultContract: Contract
 
   readonly tokenContract: Contract
@@ -414,6 +416,7 @@ export interface ITBTC {
 
 export class TBTC implements ITBTC {
   private _bridgeContract: Contract
+  private _l2BitcoinDepositorContract: Contract
   private _tbtcVaultContract: Contract
   private _tokenContract: Contract
   private _bitcoinClient: BitcoinClient
@@ -471,6 +474,11 @@ export class TBTC implements ITBTC {
       chainId,
       shouldUseTestnetDevelopmentContracts
     )
+    const l2BitcoinDepositorArtifact = getArtifact(
+      "L2BitcoinDepositorArtifact",
+      chainId,
+      shouldUseTestnetDevelopmentContracts
+    )
     const tbtcTokenArtifact = getArtifact(
       "TBTC",
       chainId,
@@ -478,6 +486,12 @@ export class TBTC implements ITBTC {
     )
 
     this._bridgeContract = getContract(
+      bridgeArtifact.address,
+      bridgeArtifact.abi,
+      providerOrSigner,
+      account
+    )
+    this._l2BitcoinDepositorContract = getContract(
       bridgeArtifact.address,
       bridgeArtifact.abi,
       providerOrSigner,
@@ -544,7 +558,8 @@ export class TBTC implements ITBTC {
         ? SDK.initializeMainnet
         : SDK.initializeSepolia
 
-    const sdk = await initializeFunction(signer)
+    const sdk = await initializeFunction(signer, true)
+    await sdk.initializeCrossChain("Arbitrum", signer)
 
     return sdk
   }
@@ -574,6 +589,10 @@ export class TBTC implements ITBTC {
 
   get bridgeContract() {
     return this._bridgeContract
+  }
+
+  get l2BitcoinDepositorContract() {
+    return this._l2BitcoinDepositorContract
   }
 
   get vaultContract() {
