@@ -70,7 +70,7 @@
   "scripts": {
     "start": "craco --openssl-legacy-provider start",
     "start:dev": ". ./scripts/start_dashboard.sh",
-    "build": "node --max_old_space_size=8192 node_modules/.bin/craco --openssl-legacy-provider build",
+    "build": "node --max_old_space_size=12288 node_modules/.bin/craco --openssl-legacy-provider build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js --ext .ts --ext .tsx .",
