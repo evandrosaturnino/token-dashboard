@@ -8,6 +8,10 @@ module.exports = {
        * ECPair library error used by "@keep-network/tbtc-v2.ts"
        */
       ["@babel/plugin-transform-class-properties", { loose: true }],
+      ["@babel/plugin-proposal-class-properties", { loose: true }],
+      ["@babel/plugin-proposal-private-methods", { loose: true }],
+      ["@babel/plugin-proposal-private-property-in-object", { loose: true }],
     ],
   },
-}
+};
+  
