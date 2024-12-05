@@ -1,7 +1,7 @@
 import { Contract } from "@ethersproject/contracts"
 
 export interface ContractCall {
-  contract: Contract
+  contract: any
   method: string
   args?: any[]
 }

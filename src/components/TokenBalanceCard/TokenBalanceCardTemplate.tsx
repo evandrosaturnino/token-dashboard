@@ -8,7 +8,7 @@ type Props = {
   icon: any
   title: string | JSX.Element
   tokenBalance: number | string
-  contract: Contract | null
+  contract: any | null
 } & Pick<
   TokenBalanceProps,
   | "tokenDecimals"

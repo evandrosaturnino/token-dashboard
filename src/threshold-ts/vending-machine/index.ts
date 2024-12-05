@@ -39,7 +39,7 @@ export interface IVendingMachine {
   /**
    * Ethers contract instance of the `VendingMachine` contract.
    */
-  contract: Contract | null
+  contract: any | null
 
   /**
    * Returns the T token amount that's obtained from `amount` wrapped tokens,
@@ -68,7 +68,7 @@ export interface IVendingMachines {
 }
 
 export class VendingMachine implements IVendingMachine {
-  private _vendingMachine: Contract | null
+  private _vendingMachine: any | null
   private _ratio?: BigNumber
   public readonly WRAPPED_TOKEN_CONVERSION_PRECISION = 3
   public readonly FLOATING_POINT_DIVISOR = BigNumber.from(10).pow(

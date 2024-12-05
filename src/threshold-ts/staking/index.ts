@@ -52,8 +52,8 @@ interface OwnerRefreshedResult {
 }
 
 export interface IStaking {
-  stakingContract: Contract | null
-  legacyNuStakingContract: Contract | null
+  stakingContract: any | null
+  legacyNuStakingContract: any | null
   STAKING_CONTRACT_DEPLOYMENT_BLOCK: number
   /**
    * Returns the authorized stake amount of the staking provider for the application.
@@ -123,10 +123,10 @@ export interface IStaking {
 }
 
 export class Staking implements IStaking {
-  private _staking: Contract | null
+  private _staking: any | null
   private _multicall: IMulticall
-  private _legacyKeepStaking: Contract | null
-  private _legacyNuStaking: Contract | null
+  private _legacyKeepStaking: any | null
+  private _legacyNuStaking: any | null
   private _vendingMachines: IVendingMachines
   public readonly STAKING_CONTRACT_DEPLOYMENT_BLOCK: number
 

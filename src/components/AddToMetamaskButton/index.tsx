@@ -6,7 +6,7 @@ import { InjectedConnector } from "@web3-react/injected-connector"
 import useAddErc20ToMetamask from "../../hooks/useAddErc20ToMetamask"
 import metamaskFox from "../../static/images/MetaMask-Fox.png"
 
-const AddToMetamaskButton: FC<{ contract: Contract | null }> = ({
+const AddToMetamaskButton: FC<{ contract: any | null }> = ({
   contract,
 }) => {
   const [isTokenAlreadyAdded, setIsTokenAlreadyAdded] = useState(false)

@@ -93,7 +93,7 @@ export interface UseErc20Interface {
   (tokenAddress: string, withSignerIfPossible?: boolean, abi?: any): {
     approve: Approve
     balanceOf: BalanceOf
-    contract: Contract | null
+    contract: any | null
   }
 }
 

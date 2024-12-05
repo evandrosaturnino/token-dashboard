@@ -2,7 +2,7 @@ import { useWeb3React } from "@web3-react/core"
 import { useCallback } from "react"
 import { Contract } from "@ethersproject/contracts"
 
-const useAddErc20ToMetamask = (tokenContract?: Contract | null) => {
+const useAddErc20ToMetamask = (tokenContract?: any | null) => {
   const { library } = useWeb3React()
 
   const addToMetamask = useCallback(async () => {

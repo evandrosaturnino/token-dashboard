@@ -5,7 +5,7 @@ import { useSubscribeToContractEvent, useTStakingContract } from "../web3/hooks"
 import { TopUpType } from "../enums"
 
 const getTopUpTypeBasedOnTheEvent = async (
-  tStakingContract: Contract,
+  tStakingContract: any,
   stakingProvider: string,
   amount: string,
   event: Event

@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core"
 import { Contract } from "@ethersproject/contracts"
 
 export const useTokenAllowance = (
-  tokenContract?: Contract,
+  tokenContract?: any,
   spender?: string
 ) => {
   const { account } = useWeb3React()

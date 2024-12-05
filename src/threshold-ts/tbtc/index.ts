@@ -207,13 +207,13 @@ export interface ITBTC {
    */
   readonly bitcoinNetwork: BitcoinNetwork
 
-  readonly bridgeContract: Contract | null
+  readonly bridgeContract: any | null
 
-  readonly vaultContract: Contract | null
+  readonly vaultContract: any | null
 
-  readonly tokenContract: Contract | null
+  readonly tokenContract: any | null
 
-  readonly l1BitcoinDepositorContract: Contract | null
+  readonly l1BitcoinDepositorContract: any | null
 
   readonly deposit: Deposit | undefined
 
@@ -477,10 +477,10 @@ export interface ITBTC {
 }
 
 export class TBTC implements ITBTC {
-  private _bridgeContract: Contract | null
-  private _tbtcVaultContract: Contract | null
-  private _tokenContract: Contract | null
-  private _l1BitcoinDepositorContract: Contract | null = null
+  private _bridgeContract: any | null
+  private _tbtcVaultContract: any | null
+  private _tokenContract: any | null
+  private _l1BitcoinDepositorContract: any | null = null
   private _multicall: IMulticall
   private _bitcoinClient: BitcoinClient
   private _ethereumConfig: EthereumConfig

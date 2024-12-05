@@ -6,7 +6,7 @@ import { useSubscribeToContractEvent, useTStakingContract } from "../web3/hooks"
 import { UnstakeType } from "../enums"
 
 const getUnstakeTypeBasedOnTheEvent = async (
-  tStakingContract: Contract,
+  tStakingContract: any,
   stakingProvider: string,
   amount: string,
   event: Event

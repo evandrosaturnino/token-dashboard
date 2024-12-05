@@ -18,7 +18,7 @@ export interface UseT {
   (): {
     approveT: () => void
     fetchTBalance: () => void
-    contract: Contract | null
+    contract: any | null
   }
 }
 

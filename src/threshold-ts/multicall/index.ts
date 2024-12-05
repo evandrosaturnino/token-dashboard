@@ -52,7 +52,7 @@ export const MULTICALL_ADDRESSES = {
 } as Record<number | string, string>
 
 export class Multicall implements IMulticall {
-  private _multicall: Contract | null
+  private _multicall: any | null
 
   constructor(config: EthereumConfig) {
     const address = MULTICALL_ADDRESSES[config.chainId]

@@ -5,7 +5,7 @@ import { BigNumber } from "ethers"
 import { Contract } from "@ethersproject/contracts"
 
 const useApproval = (
-  tokenContract?: Contract,
+  tokenContract?: any,
   spender?: string,
   onSuccess?: () => void | Promise<void>
 ) => {

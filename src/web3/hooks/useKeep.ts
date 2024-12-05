@@ -19,7 +19,7 @@ export interface UseKeep {
   (): {
     approveKeep: () => void
     fetchKeepBalance: () => void
-    contract: Contract | null
+    contract: any | null
   }
 }
 

@@ -130,7 +130,7 @@ export const useSendTransactionFromFn = <
 }
 
 export const useSendTransaction = (
-  contract: Contract,
+  contract: any,
   methodName: string,
   onSuccess?: (tx: TransactionReceipt) => void | Promise<void>,
   onError?: (error: any) => void | Promise<void>

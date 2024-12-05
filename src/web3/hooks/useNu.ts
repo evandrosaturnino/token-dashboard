@@ -11,7 +11,7 @@ export interface UseNu {
   (): {
     approveNu: () => void
     fetchNuBalance: () => void
-    contract: Contract | null
+    contract: any | null
   }
 }
 

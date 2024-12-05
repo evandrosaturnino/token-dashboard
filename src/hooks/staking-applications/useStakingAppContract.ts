@@ -11,7 +11,7 @@ export const appNameToThresholdApp: Record<
   taco: "taco",
 }
 
-export const useStakingAppContract = (appName: StakingAppName): Contract => {
+export const useStakingAppContract = (appName: StakingAppName): any => {
   const threshold = useThreshold()
 
   return threshold.multiAppStaking[appNameToThresholdApp[appName]]?.contract!

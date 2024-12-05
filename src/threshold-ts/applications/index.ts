@@ -89,7 +89,7 @@ export interface IApplication {
   /**
    * Application contract.
    */
-  contract: Contract
+  contract: any
 
   /**
    * Returns the authorized stake amount of the staking provider.
@@ -218,7 +218,7 @@ export interface IApplication {
 }
 
 export class Application implements IApplication {
-  private _application: Contract
+  private _application: any
   private _staking: IStaking
   private _multicall: IMulticall
 
