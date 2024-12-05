@@ -6,7 +6,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# Run T dApp against the Sepolia network
+# Run T dapp against the Sepolia network
 
 ## Update the `.env` file:
 
