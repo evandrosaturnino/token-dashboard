@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core"
 
 // TODO: types
 export const useSubscribeToContractEvent = (
-  contract: Contract | null,
+  contract: any,
   eventName: string,
   callback: (args: any[]) => void,
   // The indexed parameters must be in the correct order. For example if we want
