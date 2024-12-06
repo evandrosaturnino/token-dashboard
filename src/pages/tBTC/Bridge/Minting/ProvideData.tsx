@@ -131,14 +131,13 @@ export const ProvideDataComponent: FC<{
   const [shouldDownloadDepositReceipt, setShouldDownloadDepositReceipt] =
     useState(true)
 
-  const handleDepositReceiptAgreementChange: React.ChangeEventHandler<
-    HTMLInputElement
-  > = (event) => {
-    const {
-      target: { checked },
-    } = event
-    setShouldDownloadDepositReceipt(checked)
-  }
+  const handleDepositReceiptAgreementChange: React.ChangeEventHandler<HTMLInputElement> =
+    (event) => {
+      const {
+        target: { checked },
+      } = event
+      setShouldDownloadDepositReceipt(checked)
+    }
 
   const onSubmit = useCallback(
     async (values: FormValues) => {

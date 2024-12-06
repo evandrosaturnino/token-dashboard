@@ -1,9 +1,10 @@
 import { FC } from "react"
 import { HStack, Image, StackProps } from "@threshold-network/components"
 import { DotsLoadingIndicator } from "../DotsLoadingIndicator"
-import { BridgeProcess } from "../../types/tbtc"
+
 import tBTCIcon from "../../static/images/tBTC.svg"
 import BitcoinIcon from "../../static/images/bitcoin.svg"
+import { BridgeProcess } from "../../threshold-ts/tbtc"
 
 export const BridgeProcessIndicator: FC<
   {

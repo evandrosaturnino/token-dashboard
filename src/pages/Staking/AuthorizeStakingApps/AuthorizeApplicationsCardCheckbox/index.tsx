@@ -153,233 +153,232 @@ const authStatusToAppCardBordColor: Record<
   "to-authorize": undefined,
 }
 
-export const AuthorizeApplicationsCardCheckboxBase: FC<
-  AuthorizeApplicationsCardCheckboxBaseProps
-> = ({
-  appAuthData,
-  onCheckboxClick,
-  isSelected,
-  maxAuthAmount,
-  minAuthAmount,
-  stakingProvider,
-  totalInTStake,
-  formRef,
-  canSubmitForm = true,
-  ...restProps
-}) => {
-  const [isIncreaseAction, actionCallbacks] = useBoolean(true)
+export const AuthorizeApplicationsCardCheckboxBase: FC<AuthorizeApplicationsCardCheckboxBaseProps> =
+  ({
+    appAuthData,
+    onCheckboxClick,
+    isSelected,
+    maxAuthAmount,
+    minAuthAmount,
+    stakingProvider,
+    totalInTStake,
+    formRef,
+    canSubmitForm = true,
+    ...restProps
+  }) => {
+    const [isIncreaseAction, actionCallbacks] = useBoolean(true)
 
-  const { openModal } = useModal()
-  const stakingAppAddress = useStakingApplicationAddress(
-    appAuthData.stakingAppId as StakingAppName
-  )
-  const stakingAppAuthDecreaseDelay = useStakingApplicationDecreaseDelay(
-    appAuthData.stakingAppId as StakingAppName
-  )
+    const { openModal } = useModal()
+    const stakingAppAddress = useStakingApplicationAddress(
+      appAuthData.stakingAppId as StakingAppName
+    )
+    const stakingAppAuthDecreaseDelay = useStakingApplicationDecreaseDelay(
+      appAuthData.stakingAppId as StakingAppName
+    )
 
-  const { sendTransaction: sendUpdateOperatorStatus } = useUpdateOperatorStatus(
-    appAuthData.stakingAppId as StakingAppName
-  )
+    const { sendTransaction: sendUpdateOperatorStatus } =
+      useUpdateOperatorStatus(appAuthData.stakingAppId as StakingAppName)
 
-  const updateOperatorStatus = async () => {
-    await sendUpdateOperatorStatus(appAuthData.operator!)
-  }
-
-  const status = appAuthData.status
-
-  const hasPendingDeauthorization = status === "pending-deauthorization"
-  const shouldActivateDeatuhorizationRequest =
-    status === "deauthorization-initiation-needed"
-  const pendingAuthorizationDecrease =
-    appAuthData.pendingAuthorizationDecrease || "0"
-  const deauthorizationCreatedAt = appAuthData.deauthorizationCreatedAt
-  const remainingAuthorizationDecreaseDelay =
-    appAuthData.remainingAuthorizationDecreaseDelay
-  const authorizedStake = appAuthData.authorizedStake
-  const canDecrease = authorizedStake !== "0"
-
-  useEffect(() => {
-    if (hasPendingDeauthorization || shouldActivateDeatuhorizationRequest) {
-      actionCallbacks.off()
-    } else {
-      actionCallbacks.on()
+    const updateOperatorStatus = async () => {
+      await sendUpdateOperatorStatus(appAuthData.operator!)
     }
-  }, [
-    hasPendingDeauthorization,
-    shouldActivateDeatuhorizationRequest,
-    actionCallbacks,
-  ])
 
-  const onFilterTabClick = useCallback(
-    (tabId: string) => {
-      if (tabId === "increase" && !hasPendingDeauthorization) {
-        actionCallbacks.on()
-        formRef?.current?.resetForm()
-      } else if (tabId === "decrease" && authorizedStake !== "0") {
+    const status = appAuthData.status
+
+    const hasPendingDeauthorization = status === "pending-deauthorization"
+    const shouldActivateDeatuhorizationRequest =
+      status === "deauthorization-initiation-needed"
+    const pendingAuthorizationDecrease =
+      appAuthData.pendingAuthorizationDecrease || "0"
+    const deauthorizationCreatedAt = appAuthData.deauthorizationCreatedAt
+    const remainingAuthorizationDecreaseDelay =
+      appAuthData.remainingAuthorizationDecreaseDelay
+    const authorizedStake = appAuthData.authorizedStake
+    const canDecrease = authorizedStake !== "0"
+
+    useEffect(() => {
+      if (hasPendingDeauthorization || shouldActivateDeatuhorizationRequest) {
         actionCallbacks.off()
-        formRef?.current?.resetForm()
+      } else {
+        actionCallbacks.on()
       }
-    },
-    [actionCallbacks, authorizedStake, hasPendingDeauthorization]
-  )
+    }, [
+      hasPendingDeauthorization,
+      shouldActivateDeatuhorizationRequest,
+      actionCallbacks,
+    ])
 
-  const onAuthorizeApp = async (tokenAmount: string) => {
-    if (status === "to-authorize") {
-      // We want to display different modals for the authroization and for the
-      // increase aturhoziation.
-      openModal(ModalType.AuthorizeStakingApps, {
-        stakingProvider,
-        totalInTStake,
-        applications: [
-          {
-            appName: appAuthData.label,
-            authorizationAmount: tokenAmount,
-            address: stakingAppAddress,
-          },
-        ],
-      })
-    } else {
-      openModal(ModalType.IncreaseAuthorization, {
-        stakingProvider,
-        increaseAmount: tokenAmount,
+    const onFilterTabClick = useCallback(
+      (tabId: string) => {
+        if (tabId === "increase" && !hasPendingDeauthorization) {
+          actionCallbacks.on()
+          formRef?.current?.resetForm()
+        } else if (tabId === "decrease" && authorizedStake !== "0") {
+          actionCallbacks.off()
+          formRef?.current?.resetForm()
+        }
+      },
+      [actionCallbacks, authorizedStake, hasPendingDeauthorization]
+    )
+
+    const onAuthorizeApp = async (tokenAmount: string) => {
+      if (status === "to-authorize") {
+        // We want to display different modals for the authroization and for the
+        // increase aturhoziation.
+        openModal(ModalType.AuthorizeStakingApps, {
+          stakingProvider,
+          totalInTStake,
+          applications: [
+            {
+              appName: appAuthData.label,
+              authorizationAmount: tokenAmount,
+              address: stakingAppAddress,
+            },
+          ],
+        })
+      } else {
+        openModal(ModalType.IncreaseAuthorization, {
+          stakingProvider,
+          increaseAmount: tokenAmount,
+          appName: appAuthData.stakingAppId,
+        })
+      }
+    }
+
+    const onInitiateDeauthorization = async (tokenAmount: string) => {
+      openModal(ModalType.DeauthorizeApplication, {
+        stakingProvider: stakingProvider,
+        decreaseAmount: tokenAmount,
         appName: appAuthData.stakingAppId,
+        operator: appAuthData.operator,
+        isOperatorInPool: appAuthData.isOperatorInPool,
       })
     }
-  }
 
-  const onInitiateDeauthorization = async (tokenAmount: string) => {
-    openModal(ModalType.DeauthorizeApplication, {
-      stakingProvider: stakingProvider,
-      decreaseAmount: tokenAmount,
-      appName: appAuthData.stakingAppId,
-      operator: appAuthData.operator,
-      isOperatorInPool: appAuthData.isOperatorInPool,
-    })
-  }
+    const onSubmitForm = (tokenAmount: string) => {
+      if (isIncreaseAction) onAuthorizeApp(tokenAmount)
+      else onInitiateDeauthorization(tokenAmount)
+    }
 
-  const onSubmitForm = (tokenAmount: string) => {
-    if (isIncreaseAction) onAuthorizeApp(tokenAmount)
-    else onInitiateDeauthorization(tokenAmount)
-  }
+    const onConfirmDeauthorization = () => {
+      openModal(ModalType.ConfirmDeauthorization, {
+        stakingProvider,
+        appName: appAuthData.stakingAppId,
+        decreaseAmount: appAuthData.pendingAuthorizationDecrease,
+      })
+    }
 
-  const onConfirmDeauthorization = () => {
-    openModal(ModalType.ConfirmDeauthorization, {
-      stakingProvider,
-      appName: appAuthData.stakingAppId,
-      decreaseAmount: appAuthData.pendingAuthorizationDecrease,
-    })
-  }
-
-  return (
-    <Card
-      {...restProps}
-      boxShadow="none"
-      borderColor={
-        isSelected ? "brand.500" : authStatusToAppCardBordColor[status]
-      }
-    >
-      <Grid
-        gridTemplateAreas={
-          status !== "to-authorize"
-            ? gridTemplate.authorized
-            : gridTemplate.base
+    return (
+      <Card
+        {...restProps}
+        boxShadow="none"
+        borderColor={
+          isSelected ? "brand.500" : authStatusToAppCardBordColor[status]
         }
-        gridTemplateColumns={"1fr 18fr"}
-        gap="3"
-        p={0}
       >
-        {status === "to-authorize" && (
-          <Checkbox
-            isDisabled={!canSubmitForm}
-            isChecked={isSelected}
-            gridArea="checkbox"
-            alignSelf={"flex-start"}
-            justifySelf={"center"}
-            size="lg"
-            onChange={(e) => {
-              onCheckboxClick(appAuthData, e.target.checked)
-            }}
+        <Grid
+          gridTemplateAreas={
+            status !== "to-authorize"
+              ? gridTemplate.authorized
+              : gridTemplate.base
+          }
+          gridTemplateColumns={"1fr 18fr"}
+          gap="3"
+          p={0}
+        >
+          {status === "to-authorize" && (
+            <Checkbox
+              isDisabled={!canSubmitForm}
+              isChecked={isSelected}
+              gridArea="checkbox"
+              alignSelf={"flex-start"}
+              justifySelf={"center"}
+              size="lg"
+              onChange={(e) => {
+                onCheckboxClick(appAuthData, e.target.checked)
+              }}
+            />
+          )}
+          <AppAuthorizationInfo
+            status={status}
+            stakingAppName={appAuthData.stakingAppId}
+            gridArea="app-info"
+            authorizedStake={appAuthData.authorizedStake}
+            label={appAuthData.label}
+            percentageAuthorized={appAuthData.percentage}
+          />
+          <FilterTabs
+            gridArea="filter-tabs"
+            variant="inline"
+            alignItems="center"
+            gap={0}
+            size="sm"
+            onTabClick={onFilterTabClick}
+            selectedTabId={isIncreaseAction ? "increase" : "decrease"}
+          >
+            <FilterTab
+              tabId="increase"
+              disabled={hasPendingDeauthorization}
+              pointerEvents={hasPendingDeauthorization ? "none" : undefined}
+            >
+              Increase
+            </FilterTab>
+            <FilterTab
+              tabId="decrease"
+              disabled={!canDecrease}
+              pointerEvents={canDecrease ? undefined : "none"}
+            >
+              Decrease
+            </FilterTab>
+          </FilterTabs>
+          {status !== "pending-deauthorization" &&
+            status !== "deauthorization-initiation-needed" && (
+              <GridItem gridArea="token-amount-form" mt={5}>
+                <StakingAppForm
+                  innerRef={formRef}
+                  onSubmitForm={onSubmitForm}
+                  submitButtonText={
+                    isIncreaseAction
+                      ? status === "authorized"
+                        ? `Authorize Increase`
+                        : `Authorize ${appAuthData.label}`
+                      : "Initiate Deauthorization"
+                  }
+                  isDisabled={!canSubmitForm}
+                  totalStake={totalInTStake}
+                  placeholder={"Enter amount"}
+                  minimumAuthorizationAmount={minAuthAmount}
+                  authorizedAmount={appAuthData.authorizedStake}
+                  helperText={
+                    status === "authorized" && isIncreaseAction
+                      ? undefined
+                      : `Minimum ${formatTokenAmount(minAuthAmount)} T for ${
+                          appAuthData.label
+                        }`
+                  }
+                  isAuthorization={isIncreaseAction}
+                />
+              </GridItem>
+            )}
+        </Grid>
+        {(hasPendingDeauthorization ||
+          shouldActivateDeatuhorizationRequest) && (
+          <Deauthorization
+            pendingAuthorizationDecrease={pendingAuthorizationDecrease}
+            remainingAuthorizationDecreaseDelay={
+              remainingAuthorizationDecreaseDelay!
+            }
+            deauthorizationCreatedAt={deauthorizationCreatedAt}
+            stakingAppAuthDecreaseDelay={stakingAppAuthDecreaseDelay}
+            onConfirmDeauthorization={onConfirmDeauthorization}
+            onActivateDeauthorizationRequest={updateOperatorStatus}
+            status={status}
+            appName={appAuthData.stakingAppId}
           />
         )}
-        <AppAuthorizationInfo
-          status={status}
-          stakingAppName={appAuthData.stakingAppId}
-          gridArea="app-info"
-          authorizedStake={appAuthData.authorizedStake}
-          label={appAuthData.label}
-          percentageAuthorized={appAuthData.percentage}
-        />
-        <FilterTabs
-          gridArea="filter-tabs"
-          variant="inline"
-          alignItems="center"
-          gap={0}
-          size="sm"
-          onTabClick={onFilterTabClick}
-          selectedTabId={isIncreaseAction ? "increase" : "decrease"}
-        >
-          <FilterTab
-            tabId="increase"
-            disabled={hasPendingDeauthorization}
-            pointerEvents={hasPendingDeauthorization ? "none" : undefined}
-          >
-            Increase
-          </FilterTab>
-          <FilterTab
-            tabId="decrease"
-            disabled={!canDecrease}
-            pointerEvents={canDecrease ? undefined : "none"}
-          >
-            Decrease
-          </FilterTab>
-        </FilterTabs>
-        {status !== "pending-deauthorization" &&
-          status !== "deauthorization-initiation-needed" && (
-            <GridItem gridArea="token-amount-form" mt={5}>
-              <StakingAppForm
-                innerRef={formRef}
-                onSubmitForm={onSubmitForm}
-                submitButtonText={
-                  isIncreaseAction
-                    ? status === "authorized"
-                      ? `Authorize Increase`
-                      : `Authorize ${appAuthData.label}`
-                    : "Initiate Deauthorization"
-                }
-                isDisabled={!canSubmitForm}
-                totalStake={totalInTStake}
-                placeholder={"Enter amount"}
-                minimumAuthorizationAmount={minAuthAmount}
-                authorizedAmount={appAuthData.authorizedStake}
-                helperText={
-                  status === "authorized" && isIncreaseAction
-                    ? undefined
-                    : `Minimum ${formatTokenAmount(minAuthAmount)} T for ${
-                        appAuthData.label
-                      }`
-                }
-                isAuthorization={isIncreaseAction}
-              />
-            </GridItem>
-          )}
-      </Grid>
-      {(hasPendingDeauthorization || shouldActivateDeatuhorizationRequest) && (
-        <Deauthorization
-          pendingAuthorizationDecrease={pendingAuthorizationDecrease}
-          remainingAuthorizationDecreaseDelay={
-            remainingAuthorizationDecreaseDelay!
-          }
-          deauthorizationCreatedAt={deauthorizationCreatedAt}
-          stakingAppAuthDecreaseDelay={stakingAppAuthDecreaseDelay}
-          onConfirmDeauthorization={onConfirmDeauthorization}
-          onActivateDeauthorizationRequest={updateOperatorStatus}
-          status={status}
-          appName={appAuthData.stakingAppId}
-        />
-      )}
-    </Card>
-  )
-}
+      </Card>
+    )
+  }
 
 const Deauthorization: FC<{
   pendingAuthorizationDecrease: string
@@ -493,48 +492,47 @@ const Deauthorization: FC<{
   )
 }
 
-export const AuthorizeApplicationsCardCheckbox: FC<
-  AuthorizeApplicationsCardCheckboxProps
-> = ({
-  appAuthData,
-  onCheckboxClick,
-  isSelected,
-  maxAuthAmount,
-  minAuthAmount,
-  stakingProvider,
-  totalInTStake,
-  formRef,
-  canSubmitForm = true,
-  ...restProps
-}) => {
-  const status = appAuthData.status
+export const AuthorizeApplicationsCardCheckbox: FC<AuthorizeApplicationsCardCheckboxProps> =
+  ({
+    appAuthData,
+    onCheckboxClick,
+    isSelected,
+    maxAuthAmount,
+    minAuthAmount,
+    stakingProvider,
+    totalInTStake,
+    formRef,
+    canSubmitForm = true,
+    ...restProps
+  }) => {
+    const status = appAuthData.status
 
-  if (!status || status === "authorization-not-required") {
+    if (!status || status === "authorization-not-required") {
+      return (
+        <Card {...restProps} boxShadow="none">
+          <AppAuthorizationInfo
+            stakingAppName={appAuthData.stakingAppId}
+            label={appAuthData.label}
+            percentageAuthorized={100}
+          />
+        </Card>
+      )
+    }
+
     return (
-      <Card {...restProps} boxShadow="none">
-        <AppAuthorizationInfo
-          stakingAppName={appAuthData.stakingAppId}
-          label={appAuthData.label}
-          percentageAuthorized={100}
-        />
-      </Card>
+      <AuthorizeApplicationsCardCheckboxBase
+        appAuthData={appAuthData as StakingAuthDataProps}
+        onCheckboxClick={onCheckboxClick}
+        isSelected={isSelected}
+        maxAuthAmount={maxAuthAmount}
+        minAuthAmount={minAuthAmount}
+        stakingProvider={stakingProvider}
+        totalInTStake={totalInTStake}
+        formRef={formRef}
+        canSubmitForm={canSubmitForm}
+        {...restProps}
+      />
     )
   }
-
-  return (
-    <AuthorizeApplicationsCardCheckboxBase
-      appAuthData={appAuthData as StakingAuthDataProps}
-      onCheckboxClick={onCheckboxClick}
-      isSelected={isSelected}
-      maxAuthAmount={maxAuthAmount}
-      minAuthAmount={minAuthAmount}
-      stakingProvider={stakingProvider}
-      totalInTStake={totalInTStake}
-      formRef={formRef}
-      canSubmitForm={canSubmitForm}
-      {...restProps}
-    />
-  )
-}
 
 export default AuthorizeApplicationsCardCheckbox

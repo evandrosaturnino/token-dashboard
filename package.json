@@ -104,7 +104,6 @@
     "@types/react": "17.0.30",
     "@tenderly/hardhat-tenderly": ">=1.0.12 <1.1.0",
     "ethers": "5.4.7"
-
   },
   "devDependencies": {
     "@babel/plugin-transform-class-properties": "7.22.5",

@@ -16,52 +16,51 @@ type SendBitcoinsToDepositAddressFormBaseProps = {
   maxTokenAmount: string
 }
 
-const SendBitcoinsToDepositAddressFormBase: FC<
-  SendBitcoinsToDepositAddressFormBaseProps
-> = ({ maxTokenAmount }) => {
-  const { isSubmitting } =
-    useFormikContext<SendBitcoinsToDepositAddressFormValues>()
+const SendBitcoinsToDepositAddressFormBase: FC<SendBitcoinsToDepositAddressFormBaseProps> =
+  ({ maxTokenAmount }) => {
+    const { isSubmitting } =
+      useFormikContext<SendBitcoinsToDepositAddressFormValues>()
 
-  return (
-    <Form mt={10}>
-      <FormikTokenBalanceInput
-        name="amount"
-        label={
-          // TODO: Extract to a shared component - the same layout is used in
-          // `UnmintFormBase` component.
-          <>
-            <Box as="span">Amount </Box>
-            <BodySm as="span" float="right" color="gray.500">
-              Balance:{" "}
-              <InlineTokenBalance
-                tokenAmount={maxTokenAmount}
-                withSymbol
-                tokenSymbol="BTC"
-                tokenDecimals={8}
-                precision={6}
-                higherPrecision={8}
-                withHigherPrecision
-              />
-            </BodySm>
-          </>
-        }
-        placeholder="Amount of bitcoins you want to send to deposit address."
-        max={maxTokenAmount}
-        icon={tBTCFillBlack}
-        tokenDecimals={8}
-      />
-      <Button
-        size="lg"
-        w="100%"
-        mt={"10"}
-        type="submit"
-        isLoading={isSubmitting}
-      >
-        Send Bitcoins
-      </Button>
-    </Form>
-  )
-}
+    return (
+      <Form mt={10}>
+        <FormikTokenBalanceInput
+          name="amount"
+          label={
+            // TODO: Extract to a shared component - the same layout is used in
+            // `UnmintFormBase` component.
+            <>
+              <Box as="span">Amount </Box>
+              <BodySm as="span" float="right" color="gray.500">
+                Balance:{" "}
+                <InlineTokenBalance
+                  tokenAmount={maxTokenAmount}
+                  withSymbol
+                  tokenSymbol="BTC"
+                  tokenDecimals={8}
+                  precision={6}
+                  higherPrecision={8}
+                  withHigherPrecision
+                />
+              </BodySm>
+            </>
+          }
+          placeholder="Amount of bitcoins you want to send to deposit address."
+          max={maxTokenAmount}
+          icon={tBTCFillBlack}
+          tokenDecimals={8}
+        />
+        <Button
+          size="lg"
+          w="100%"
+          mt={"10"}
+          type="submit"
+          isLoading={isSubmitting}
+        >
+          Send Bitcoins
+        </Button>
+      </Form>
+    )
+  }
 
 export type SendBitcoinsToDepositAddressFormValues = {
   amount: string

@@ -31,115 +31,106 @@ export interface NewStakerAuthorizationCardProps extends BoxProps {
   stakingAppName: AppAuthorizationInfoProps["stakingAppName"]
 }
 
-export const NewStakerAuthorizationCard: FC<
-  NewStakerAuthorizationCardProps
-> = ({
-  max,
-  min,
-  inputId,
-  checkBoxId,
-  label,
-  stakingAppName,
-  ...restProps
-}) => {
-  const [, { value: inputValue }, { setValue }] = useField(inputId)
-  const [, { value: checkboxValue }] = useField(checkBoxId)
+export const NewStakerAuthorizationCard: FC<NewStakerAuthorizationCardProps> =
+  ({ max, min, inputId, checkBoxId, label, stakingAppName, ...restProps }) => {
+    const [, { value: inputValue }, { setValue }] = useField(inputId)
+    const [, { value: checkboxValue }] = useField(checkBoxId)
 
-  const calculateRemainingAmount = () => {
-    if (inputValue) {
-      if (BigNumber.from(inputValue).gte(BigNumber.from(max))) {
-        return "0"
+    const calculateRemainingAmount = () => {
+      if (inputValue) {
+        if (BigNumber.from(inputValue).gte(BigNumber.from(max))) {
+          return "0"
+        }
+        return formatTokenAmount(BigNumber.from(max).sub(inputValue).toString())
       }
-      return formatTokenAmount(BigNumber.from(max).sub(inputValue).toString())
+
+      return formatTokenAmount(max)
     }
 
-    return formatTokenAmount(max)
-  }
+    const percentToBeAuthorized = calculatePercenteage(inputValue, max)
+    const remainingAmount = calculateRemainingAmount()
 
-  const percentToBeAuthorized = calculatePercenteage(inputValue, max)
-  const remainingAmount = calculateRemainingAmount()
-
-  return (
-    <Card
-      {...restProps}
-      boxShadow="none"
-      borderColor={checkboxValue === true ? "brand.500" : undefined}
-    >
-      <Grid
-        gridTemplateAreas={{
-          base: `
+    return (
+      <Card
+        {...restProps}
+        boxShadow="none"
+        borderColor={checkboxValue === true ? "brand.500" : undefined}
+      >
+        <Grid
+          gridTemplateAreas={{
+            base: `
             "checkbox             checkbox"
             "app-info             app-info"
             "filter-tabs          filter-tabs"
             "token-amount-form    token-amount-form"
           `,
-          sm: `
+            sm: `
               "checkbox        app-info"
               "checkbox        filter-tabs"
               "checkbox        token-amount-form"
             `,
-          md: `
+            md: `
               "checkbox        app-info           filter-tabs      "
               "checkbox        token-amount-form  token-amount-form"
               "checkbox        token-amount-form  token-amount-form"
             `,
-        }}
-        gridTemplateColumns={"1fr 18fr"}
-        gap="3"
-        p={0}
-      >
-        <Field name={checkBoxId}>
-          {({ field }: FieldProps) => {
-            const { value } = field
-            return (
-              <FormControl>
-                <Checkbox
-                  isChecked={value}
-                  gridArea="checkbox"
-                  alignSelf={"flex-start"}
-                  justifySelf={"center"}
-                  size="lg"
-                  {...field}
-                />
-              </FormControl>
-            )
           }}
-        </Field>
-        <AppAuthorizationInfo
-          stakingAppName={stakingAppName}
-          gridArea="app-info"
-          label={label}
-          status={"to-authorize"}
-          percentageAuthorized={percentToBeAuthorized}
-        />
-        <GridItem gridArea="token-amount-form" mt={5}>
-          <FormikTokenBalanceInput
-            name={inputId}
-            label={
-              <HStack justifyContent="space-between">
-                <BodyMd fontWeight="bold">Amount</BodyMd>
-                <BodySm color="gray.500">
-                  Remaining Balance: {remainingAmount} T
-                </BodySm>
-              </HStack>
-            }
-            placeholder="Enter amount"
-            icon={ThresholdCircleBrand}
-            max={max}
-            helperText={
-              <BodySm>
-                <Link color="brand.500" mr={2} onClick={() => setValue(min)}>
-                  Minimum
-                </Link>
-                {formatTokenAmount(min)} T for {label}
-              </BodySm>
-            }
-            _disabled={{ bg: "gray.50", border: "none" }}
+          gridTemplateColumns={"1fr 18fr"}
+          gap="3"
+          p={0}
+        >
+          <Field name={checkBoxId}>
+            {({ field }: FieldProps) => {
+              const { value } = field
+              return (
+                <FormControl>
+                  <Checkbox
+                    isChecked={value}
+                    gridArea="checkbox"
+                    alignSelf={"flex-start"}
+                    justifySelf={"center"}
+                    size="lg"
+                    {...field}
+                  />
+                </FormControl>
+              )
+            }}
+          </Field>
+          <AppAuthorizationInfo
+            stakingAppName={stakingAppName}
+            gridArea="app-info"
+            label={label}
+            status={"to-authorize"}
+            percentageAuthorized={percentToBeAuthorized}
           />
-        </GridItem>
-      </Grid>
-    </Card>
-  )
-}
+          <GridItem gridArea="token-amount-form" mt={5}>
+            <FormikTokenBalanceInput
+              name={inputId}
+              label={
+                <HStack justifyContent="space-between">
+                  <BodyMd fontWeight="bold">Amount</BodyMd>
+                  <BodySm color="gray.500">
+                    Remaining Balance: {remainingAmount} T
+                  </BodySm>
+                </HStack>
+              }
+              placeholder="Enter amount"
+              icon={ThresholdCircleBrand}
+              max={max}
+              helperText={
+                <BodySm>
+                  <Link color="brand.500" mr={2} onClick={() => setValue(min)}>
+                    Minimum
+                  </Link>
+                  {formatTokenAmount(min)} T for {label}
+                </BodySm>
+              }
+              _disabled={{ bg: "gray.50", border: "none" }}
+            />
+          </GridItem>
+        </Grid>
+      </Card>
+    )
+  }
 
 export default NewStakerAuthorizationCard

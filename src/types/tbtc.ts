@@ -1,6 +1,6 @@
 import { BitcoinUtxo } from "@keep-network/tbtc-v2.ts"
 import { FetchingState } from "."
-import { BridgeActivity, BridgeProcess } from "../threshold-ts/tbtc"
+import { BridgeActivity } from "../threshold-ts/tbtc"
 import { UpdateStateActionPayload } from "./state"
 import { NetworkName } from "../networks/types/networks"
 
@@ -64,5 +64,3 @@ export type ExternalPoolData = {
   apy: number[]
   tvl: number
 }
-
-export { type BridgeProcess }
