@@ -1,6 +1,7 @@
 import { FC, ReactElement, useMemo } from "react"
 import {
   Button,
+  Box,
   Icon,
   IconButton,
   useColorMode,
@@ -89,7 +90,7 @@ const NetworkButton: FC = () => {
             display="flex"
             gap="3"
           >
-            {icon}
+            <Box mr="3">{icon}</Box>
             {network.chainParameters?.chainName}
           </MenuItem>
         )
