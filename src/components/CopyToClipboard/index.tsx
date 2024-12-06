@@ -119,7 +119,7 @@ type CopyAddressToClipboardProps = Omit<
   ComponentProps<typeof BodyMd>,
   "children"
 > & {
-  address: string
+  address: any
   withFullAddress?: boolean
   withLinkToBlockExplorer?: boolean
 } & Omit<BaseCopyToClipboardProps, "textToCopy"> &

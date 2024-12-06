@@ -38,63 +38,62 @@ const Label: FC<{ label: string; remainingAmount: string }> = ({
   )
 }
 
-const StakingApplicationFormBase: FC<
-  ComponentProps & FormikProps<FormValues>
-> = ({
-  totalStake,
-  submitButtonText,
-  isDisabled,
-  helperText,
-  authorizedAmount,
-  isAuthorization = true,
-  ...formikProps
-}) => {
-  const { values } = formikProps
-  const { tokenAmount } = values
-  const [remainingAmount, setRemainingAmount] = useState("0")
-  const [maxAmount, setMaxAmount] = useState("0")
+const StakingApplicationFormBase: FC<ComponentProps & FormikProps<FormValues>> =
+  ({
+    totalStake,
+    submitButtonText,
+    isDisabled,
+    helperText,
+    authorizedAmount,
+    isAuthorization = true,
+    ...formikProps
+  }) => {
+    const { values } = formikProps
+    const { tokenAmount } = values
+    const [remainingAmount, setRemainingAmount] = useState("0")
+    const [maxAmount, setMaxAmount] = useState("0")
 
-  useEffect(() => {
-    if (!isAuthorization) {
-      setMaxAmount(authorizedAmount || "0")
-    } else {
-      setMaxAmount(
-        BigNumber.from(totalStake || "0")
-          .sub(authorizedAmount || "0")
-          .toString()
-      )
-    }
-  }, [authorizedAmount, totalStake, isAuthorization])
-
-  useEffect(() => {
-    const _tokenAmount = BigNumber.from(tokenAmount || "0")
-    const _max = BigNumber.from(maxAmount)
-    setRemainingAmount(
-      tokenAmount
-        ? _tokenAmount.gte(_max)
-          ? "0"
-          : _max.sub(_tokenAmount).toString()
-        : maxAmount
-    )
-  }, [tokenAmount, maxAmount])
-
-  return (
-    <TokenAmountFormBase
-      label={
-        <Label
-          label={isAuthorization ? "Increase Amount" : "Decrease Amount"}
-          remainingAmount={remainingAmount}
-        />
+    useEffect(() => {
+      if (!isAuthorization) {
+        setMaxAmount(authorizedAmount || "0")
+      } else {
+        setMaxAmount(
+          BigNumber.from(totalStake || "0")
+            .sub(authorizedAmount || "0")
+            .toString()
+        )
       }
-      submitButtonText={submitButtonText}
-      isDisabled={isDisabled}
-      maxTokenAmount={maxAmount}
-      placeholder={"Enter amount"}
-      helperText={helperText}
-      {...formikProps}
-    />
-  )
-}
+    }, [authorizedAmount, totalStake, isAuthorization])
+
+    useEffect(() => {
+      const _tokenAmount = BigNumber.from(tokenAmount || "0")
+      const _max = BigNumber.from(maxAmount)
+      setRemainingAmount(
+        tokenAmount
+          ? _tokenAmount.gte(_max)
+            ? "0"
+            : _max.sub(_tokenAmount).toString()
+          : maxAmount
+      )
+    }, [tokenAmount, maxAmount])
+
+    return (
+      <TokenAmountFormBase
+        label={
+          <Label
+            label={isAuthorization ? "Increase Amount" : "Decrease Amount"}
+            remainingAmount={remainingAmount}
+          />
+        }
+        submitButtonText={submitButtonText}
+        isDisabled={isDisabled}
+        maxTokenAmount={maxAmount}
+        placeholder={"Enter amount"}
+        helperText={helperText}
+        {...formikProps}
+      />
+    )
+  }
 
 type StakingAppFormBaseProps = {
   initialAmount?: string

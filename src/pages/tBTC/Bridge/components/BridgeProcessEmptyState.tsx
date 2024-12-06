@@ -10,7 +10,7 @@ import {
 } from "../../../../components/tBTC"
 import { useFetchRecentDeposits } from "../../../../hooks/tbtc"
 import { useFetchTvl } from "../../../../hooks/useFetchTvl"
-import { BridgeProcess } from "../../../../types"
+import { BridgeProcess } from "../../../../threshold-ts/tbtc"
 
 export const BridgeProcessEmptyState: FC<{
   title: string

@@ -1,5 +1,6 @@
+import { BridgeProcess } from "../threshold-ts/tbtc"
 import { BitcoinNetwork } from "../threshold-ts/types"
-import { BridgeProcess } from "../types/tbtc"
+
 import {
   computeHash160,
   createOutputScriptFromAddress,

@@ -34,25 +34,24 @@ type AnnouncementBannerBodyProps = {
 type AnnouncementBannerProps = AnnouncementBannerContainerProps &
   AnnouncementBannerBodyProps
 
-export const AnnouncementBannerContainer: FC<
-  AnnouncementBannerContainerProps
-> = ({ size, variant, hideCloseBtn, children, ...props }) => {
-  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true })
+export const AnnouncementBannerContainer: FC<AnnouncementBannerContainerProps> =
+  ({ size, variant, hideCloseBtn, children, ...props }) => {
+    const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true })
 
-  const styles = useMultiStyleConfig("AnnouncementBanner", {
-    size,
-    variant,
-  })
+    const styles = useMultiStyleConfig("AnnouncementBanner", {
+      size,
+      variant,
+    })
 
-  return isOpen ? (
-    <Card sx={styles.container} {...props}>
-      {!hideCloseBtn && (
-        <CloseButton sx={styles.closeButton} onClick={onClose} />
-      )}
-      <StylesProvider value={styles}>{children}</StylesProvider>
-    </Card>
-  ) : null
-}
+    return isOpen ? (
+      <Card sx={styles.container} {...props}>
+        {!hideCloseBtn && (
+          <CloseButton sx={styles.closeButton} onClick={onClose} />
+        )}
+        <StylesProvider value={styles}>{children}</StylesProvider>
+      </Card>
+    ) : null
+  }
 
 export const AnnouncementBannerTitle: FC<AnnouncementBannerTitleProps> = ({
   preTitle,

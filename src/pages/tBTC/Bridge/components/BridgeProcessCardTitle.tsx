@@ -2,8 +2,9 @@ import { FC } from "react"
 import { HiArrowNarrowLeft } from "react-icons/all"
 import { Icon, Stack, LabelSm } from "@threshold-network/components"
 import { tBTCFillBlack } from "../../../../static/icons/tBTCFillBlack"
-import { BridgeProcess, MintingStep } from "../../../../types/tbtc"
+import { MintingStep } from "../../../../types/tbtc"
 import { TBTCText } from "../../../../components/tBTC"
+import { BridgeProcess } from "../../../../threshold-ts/tbtc"
 
 const bridgeProcessToText: Record<BridgeProcess, string> = {
   mint: "minting process",
@@ -33,7 +34,7 @@ export const BridgeProcessCardTitle: FC<Props> = ({
 }) => {
   return (
     <Stack direction="row" mb={8} align={"center"}>
-      {previousStep && (
+      {previousStep && onPreviousStepClick && (
         <Icon
           cursor="pointer"
           onClick={() => onPreviousStepClick(previousStep)}

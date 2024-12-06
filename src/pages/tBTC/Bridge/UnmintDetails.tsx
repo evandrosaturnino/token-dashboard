@@ -78,9 +78,8 @@ export const UnmintDetails: PageComponent = () => {
     redeemer
   )
   const findRedemptionInBitcoinTx = useFindRedemptionInBitcoinTx()
-  const [redemptionFromBitcoinTx, setRedemptionFromBitcoinTx] = useState<
-    Awaited<ReturnType<typeof findRedemptionInBitcoinTx>> | undefined
-  >(undefined)
+  const [redemptionFromBitcoinTx, setRedemptionFromBitcoinTx] =
+    useState<any>(undefined)
 
   useSubscribeToRedemptionsCompletedEventBase(
     async (eventWalletPublicKeyHash, redemptionTxHash, event) => {

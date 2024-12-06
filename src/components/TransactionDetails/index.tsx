@@ -37,23 +37,22 @@ type TransactionDetailsAmountItemProps = Omit<
     isFetching?: boolean
   }
 
-export const TransactionDetailsAmountItem: FC<
-  TransactionDetailsAmountItemProps
-> = ({ label, amount, suffixItem, isFetching = false, ...restProps }) => {
-  const textColor = useColorModeValue("gray.700", "gray.300")
+export const TransactionDetailsAmountItem: FC<TransactionDetailsAmountItemProps> =
+  ({ label, amount, suffixItem, isFetching = false, ...restProps }) => {
+    const textColor = useColorModeValue("gray.700", "gray.300")
 
-  return (
-    <TransactionDetailsItem label={label}>
-      <Skeleton isLoaded={!isFetching && !!amount}>
-        <BodySm color={textColor}>
-          <InlineTokenBalance
-            withSymbol
-            tokenAmount={amount || "0"}
-            tokenSymbol={suffixItem || ""}
-            {...restProps}
-          />
-        </BodySm>
-      </Skeleton>
-    </TransactionDetailsItem>
-  )
-}
+    return (
+      <TransactionDetailsItem label={label}>
+        <Skeleton isLoaded={!isFetching && !!amount}>
+          <BodySm color={textColor}>
+            <InlineTokenBalance
+              withSymbol
+              tokenAmount={amount || "0"}
+              tokenSymbol={suffixItem || ""}
+              {...restProps}
+            />
+          </BodySm>
+        </Skeleton>
+      </TransactionDetailsItem>
+    )
+  }

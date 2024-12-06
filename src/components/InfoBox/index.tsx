@@ -2,7 +2,7 @@ import { FC } from "react"
 import { StackProps, Stack, useStyleConfig } from "@chakra-ui/react"
 import { H3 } from "@threshold-network/components"
 
-const InfoBox: FC<{ text?: string; variant?: any } & StackProps> = ({
+const InfoBox: FC<{ text?: string; variant?: any } & any> = ({
   text,
   children,
   variant = "base",
