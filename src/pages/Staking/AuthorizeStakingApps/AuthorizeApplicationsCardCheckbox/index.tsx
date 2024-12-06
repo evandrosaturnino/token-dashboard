@@ -311,7 +311,6 @@ export const AuthorizeApplicationsCardCheckboxBase: FC<AuthorizeApplicationsCard
             gridArea="filter-tabs"
             variant="inline"
             alignItems="center"
-            gap={0}
             size="sm"
             onTabClick={onFilterTabClick}
             selectedTabId={isIncreaseAction ? "increase" : "decrease"}
