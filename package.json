@@ -70,6 +70,7 @@
   "scripts": {
     "start": "craco --openssl-legacy-provider start",
     "start:dev": ". ./scripts/start_dashboard.sh",
+    "preinstall": "git config --global url.\"https://\".insteadOf git://",
     "build": "craco --openssl-legacy-provider build",
     "test": "craco test",
     "eject": "react-scripts eject",
