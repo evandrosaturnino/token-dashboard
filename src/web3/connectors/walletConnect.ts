@@ -96,7 +96,6 @@ export class WalletConnectConnector extends AbstractConnector {
         chains: chains as ArrayOneOrMore<number>,
         rpcMap: this.rpcMap,
         showQrModal: this.config.showQrModal,
-        optionalChains: this.config.optionalChains,
       })
     }
 
@@ -186,14 +185,11 @@ const walletConnectProjectId = getEnvVariable(
 )
 
 export const walletConnect = new WalletConnectConnector({
-  chains: [SupportedChainIds.Ethereum],
+  chains: supportedNetworks,
   rpc: networks.reduce((acc, network) => {
     acc[network.chainId] = getRpcUrl(network.chainId)
     return acc
   }, {} as EthereumRpcMap),
   projectId: walletConnectProjectId,
   showQrModal: true,
-  optionalChains: supportedNetworks.filter(
-    (chainId) => chainId !== SupportedChainIds.Ethereum
-  ),
 })
